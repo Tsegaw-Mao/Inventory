@@ -14,7 +14,7 @@ public class Item {
     private String name;
     private String description;
     private int quantity;
-    private int price;
+    private double price;
     private int inStorageBinId;
 
     public int getItemId() {
@@ -49,11 +49,11 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

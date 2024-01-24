@@ -109,6 +109,7 @@ public class Main {
                 mainMenu();
             }
         }
+       
     }
 
     private static void addWarehouse() {
@@ -492,7 +493,7 @@ public class Main {
 
         Warehouse warehouse = ir.searchWarehouse(inp.nextInt());
 
-        System.out.println("Search Under Storage Bin ID : ");
+        System.out.println("Search Under Section ID : ");
         Section section = ir.searchSection(warehouse, inp.nextInt());
 
         System.out.println("Storage Bin ID to be Searched : ");
@@ -520,7 +521,7 @@ public class Main {
 
         Warehouse warehouse = ir.searchWarehouse(inp.nextInt());
 
-        System.out.println("Show Under Storage Bin ID : ");
+        System.out.println("Show Under Section ID : ");
         Section section = ir.searchSection(warehouse, inp.nextInt());
 
         List<StorageBin> bins = new ArrayList<>();
@@ -587,22 +588,152 @@ public class Main {
     }
 
     private static void addItem() {
+        Warehouse w;
+        Section s;
+        StorageBin sb;
+        Item item = new Item();
+        System.out.println("Create New Item");
+        System.out.println("Item ID : ");
+        item.setItemId(inp.nextInt());
+        inp.nextLine();
+        System.out.println("Name : ");
+        item.setName(inp.nextLine());
+        System.out.println("Description : ");
+        item.setDescription(inp.nextLine());
+        System.out.println("Quantity : ");
+        item.setQuantity(inp.nextInt());
+        System.out.println("Price : ");
+        item.setPrice(inp.nextDouble());
+        System.out.println("Put in Storage Bin ID : ");
+        int sbid = inp.nextInt();
+        System.out.println("Under Section ID : ");
+        int sid = inp.nextInt();
+        System.out.println("Inside Warehouse ID : ");
+        int wid = inp.nextInt();
+
+        w = ir.searchWarehouse(wid);
+        s = ir.searchSection(w, sid);
+        sb = ir.searchStorageBin(w, s, wid);
+
+        ir.addItem(w, s, sb, item);
+
+        System.out.println("   Storage Bin Created Sussessfully   ");
 
     }
 
     private static void updateItem() {
 
+        Warehouse w;
+        Section s;
+        StorageBin sb;
+        Item item = new Item();
+
+        System.out.println("Update Existing Item");
+        System.out.println("Item ID : ");
+        item.setItemId(inp.nextInt());
+        inp.nextLine();
+        System.out.println("Name : ");
+        item.setName(inp.nextLine());
+        System.out.println("Description : ");
+        item.setDescription(inp.nextLine());
+        System.out.println("Quantity : ");
+        item.setQuantity(inp.nextInt());
+        System.out.println("Price : ");
+        item.setPrice(inp.nextDouble());
+        System.out.println("Put in Storage Bin ID : ");
+        int sbid = inp.nextInt();
+        System.out.println("Under Section ID : ");
+        int sid = inp.nextInt();
+        System.out.println("Inside Warehouse ID : ");
+        int wid = inp.nextInt();
+
+        w = ir.searchWarehouse(wid);
+        s = ir.searchSection(w, sid);
+        sb = ir.searchStorageBin(w, s, wid);
+
+        ir.updateItem(w, s, sb, item);
+
+        System.out.println("   Storage Bin Updated Sussessfully   ");
+
     }
 
     private static void deleteItem() {
+
+        Warehouse w;
+        Section s;
+        StorageBin sb;
+
+        System.out.println("Delete an Existing Item");
+        System.out.println("Item Found in Warehouse ID : ");
+        int wid = inp.nextInt();
+        System.out.println("Item Found under Section ID : ");
+        int sid = inp.nextInt();
+        System.out.println("Item Found on Storage Bin ID : ");
+        int sbid = inp.nextInt();
+
+        System.out.println("Item ID to Be Deleted : ");
+        int itemId = inp.nextInt();
+        w = ir.searchWarehouse(wid);
+        s = ir.searchSection(w, sid);
+        sb = ir.searchStorageBin(w, s, sbid);
+
+        ir.deleteItem(w, s, sb, itemId);
+
+        System.out.println("Item Deleted Sussessfully");
 
     }
 
     private static void searchItem() {
 
+        System.out.println(" Search an Existing Item ");
+
+        System.out.println("Search in Warehouse ID : ");
+        Warehouse warehouse = ir.searchWarehouse(inp.nextInt());
+
+        System.out.println("Search in Section ID : ");
+        Section section = ir.searchSection(warehouse, inp.nextInt());
+
+        System.out.println("Search Under Storage Bin ID : ");
+        StorageBin bin = ir.searchStorageBin(warehouse, section, inp.nextInt());
+
+        System.out.println("Item ID to be Searched : ");
+        int id = inp.nextInt();
+        Item item = new Item();
+
+        item = ir.searchItem(warehouse, section, bin, id);
+
+        System.out.println(" Result Item ID : " + item.getItemId());
+        System.out.println(" Result Name : " + item.getName());
+        System.out.println(" Result Description : " + item.getDescription());
+        System.out.println(" Result Quantity : " + item.getQuantity());
+        System.out.println(" REsult Price : " + item.getPrice());
+        System.out.println(" Result Found in Storage Bin ID : " + item.getInStorageBinId());
+
     }
 
     private static void viewAllItems() {
 
+        System.out.println(" Search an Existing Item ");
+
+        System.out.println("Search in Warehouse ID : ");
+        Warehouse warehouse = ir.searchWarehouse(inp.nextInt());
+
+        System.out.println("Search in Section ID : ");
+        Section section = ir.searchSection(warehouse, inp.nextInt());
+
+        System.out.println("Search Under Storage Bin ID : ");
+        StorageBin bin = ir.searchStorageBin(warehouse, section, inp.nextInt());
+
+        List<Item> items = new ArrayList<>();
+        items = ir.viewAllItems(warehouse, section, bin);
+        for (Item item : items) {
+
+            System.out.println(" Result Item ID : " + item.getItemId());
+            System.out.println(" Result Name : " + item.getName());
+            System.out.println(" Result Description : " + item.getDescription());
+            System.out.println(" Result Quantity : " + item.getQuantity());
+            System.out.println(" REsult Price : " + item.getPrice());
+            System.out.println(" Result Found in Storage Bin ID : " + item.getInStorageBinId());
+        }
     }
 }
